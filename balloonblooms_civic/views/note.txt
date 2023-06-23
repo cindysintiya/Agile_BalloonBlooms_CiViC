@@ -1,0 +1,1 @@
+views for all guests, users, and admins
