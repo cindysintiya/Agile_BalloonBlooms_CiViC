@@ -1,0 +1,92 @@
+.navbar-item.is-active {
+    background-color: rgba(255, 255, 255, 0.4) !important;
+    box-shadow: inset 3px 3px 20px white;
+    color: black !important;
+    border-radius: 5px !important;
+    outline: 2px solid whitesmoke !important;
+    outline-offset: -1.5px !important;
+}
+a.navbar-item:hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: black !important;
+}
+.navbar.is-info, .footer.has-background-success {
+    background-image: linear-gradient(135deg, pink, skyblue, violet, #FEE5E0) !important;
+}
+
+.is-size-0 {
+    font-size: 60px !important;
+}
+
+.has-background-primary {
+    background-color: #FEE5E0 !important;
+}
+.has-text-info {
+    color: violet !important;
+}
+
+.button.is-success {
+    background-color: pink !important;
+}
+.button.is-primary {
+    background-color: skyblue !important;
+}
+.button.is-info {
+    background-color: violet !important;
+}
+.button.is-success.is-outlined {
+    border-color: pink !important;
+    border-width: 2px !important;
+    background-color: white !important;
+    color: pink !important;
+}
+.button.is-success.is-outlined:hover {
+    background-color: pink !important;
+    color: white !important;
+}
+.button.is-success.is-outlined:focus, .button.is-success.is-outlined:active {
+    box-shadow: 0 0 0 .15rem rgba(255, 192, 203, 0.7) !important;
+}
+.button.is-success:focus, .button.is-success:active {
+    box-shadow: 0 0 0 .15rem rgba(255, 192, 203, 0.7) !important;
+}
+.button.is-primary:focus, .button.is-primary:active {
+    box-shadow: 0 0 0 .15rem rgba(135, 206, 235, 0.7) !important;
+}
+.button.is-info:focus, .button.is-info:active {
+    box-shadow: 0 0 0 .15rem rgba(238, 130, 238, 0.7) !important;
+}
+
+.input.is-success, .textarea.is-success, .file.is-success {
+    border-color: pink !important;
+}
+.input.is-success:focus, .input.is-success:active, .textarea.is-success:focus, .textarea.is-success:active, .file.is-success:hover, .file.is-success:active {
+    box-shadow: 0 0 0 .15rem rgba(254, 229, 224, 0.7) !important;
+    border-radius: 3px !important;
+}
+.input.is-primary:focus, .input.is-primary:active {
+    box-shadow: 0 0 0 .15rem rgba(135, 206, 235, 0.7) !important;
+    border-radius: 3px !important;
+}
+.input.is-info:focus, .input.is-info:active {
+    box-shadow: 0 0 0 .15rem rgba(238, 130, 238, 0.7) !important;
+    border-radius: 3px !important;
+}
+
+.file.is-success .file-cta {
+    /* background-color: #FEE5E0 !important; */
+    background-color: #FFEEEE !important;
+}
+.file.is-success .file-label, .file.is-success .file-icon {
+    color: black !important;
+}
+
+.tag.is-success {
+    background-color: pink !important;
+}
+.tag.is-primary {
+    background-color: skyblue !important;
+}
+.tag.is-info {
+    background-color: violet !important;
+}

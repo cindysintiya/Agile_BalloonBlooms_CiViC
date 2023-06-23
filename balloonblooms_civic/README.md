@@ -7,7 +7,7 @@
 - Eksekusi command :
   > npm init
 
-  > npm i nodemon express
+  > npm i nodemon express ejs
 
   > nodemon index
 
