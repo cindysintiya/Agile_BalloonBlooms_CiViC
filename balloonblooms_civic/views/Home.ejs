@@ -32,7 +32,11 @@
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="buttons">
-                            <a href="" class="button is-light"><span class="icon is-small is-left mr-1"><i class="fa fa-solid fa-user"></i></span>Login</a>
+                            <div class="mx-3" id="userEmail">
+                                <%- (user? user.isAdmin? '<small>Logged in as Admin</small>' : '<small>Logged in as User</small>' : '<small>Not Logged In</small>') %>  <%= user.username %>
+                            </div>
+                            <%- (!user ? '<a href="/login" class="button is-light"><span class="icon is-small is-left mr-1"><i class="fa fa-solid fa-user"></i></span>Login</a>' : '<a href="/logout" id="btnlogout" class="button is-light" onclick="loadLogout()"><span class="icon is-small is-left mr-1"><i class="fa fa-solid fa-right-from-bracket"></i></span>Logout</a>') %>
+                            <button id="btnload" class="button is-loading" style="display: none; width: 150px;"></button>
                         </div>
                     </div>
                 </div>
@@ -144,7 +148,7 @@
                 <p class="has-text-left has-text-weight-bold mt-4 ml-6 pl-5">Subscribe Us</p>
                 <ul>
                     <li class="mt-2">
-                        <a href="https://www.instagram.com/balloonblooms_medan/" class="text-decoration-none columns is-vcentered my-3">
+                        <a href="https://www.instagram.com/balloonblooms_medan/" class="text-decoration-none columns is-vcentered my-3" target="_blank">
                             <img src="/img/pages/ig-image.png" alt="ig" width='40px'>&ensp;balloonblooms_medan
                         </a>
                     </li>

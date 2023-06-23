@@ -17,3 +17,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+// logout loading
+let loadLogout = () => {
+    document.getElementById('btnlogout').style.display = "none"
+    document.getElementById('userEmail').style.display = "none"
+    document.getElementById('btnload').style.display = "block"
+    alert("Logged out successfully. You will be redirected to Home page.")
+}

@@ -9,8 +9,11 @@
   "author": "civic",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2",
     "ejs": "^3.1.9",
-    "nodemon": "^2.0.22"
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "nodemon": "^2.0.22",
+    "mysql2": "^3.4.0",
+    "sequelize": "^6.32.1"
   }
 }
