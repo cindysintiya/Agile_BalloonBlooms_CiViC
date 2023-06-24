@@ -11,6 +11,7 @@ const Product = require('./models/product.js');
 // import routes module
 const all_routes = require('./routers/all.js');
 
+const admin_user_routes = require('./routers/admin/user.js');
 const admin_product_routes = require('./routers/admin/product.js');
 
 // import controllers module
@@ -39,12 +40,14 @@ app.use(session({
 try {
     sequelize.authenticate()
     User.sync()
+    Product.sync()
 }
 catch (err) {
     console.log("Error !!!", err);
 }
 
 app.use('/admin/product', forAdmin, admin_product_routes)
+app.use('/admin/user-list', forAdmin, admin_user_routes)
 
 app.use('/', all_routes)
 

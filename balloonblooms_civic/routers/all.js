@@ -41,7 +41,6 @@ router.get('/products', (req, res) => {
             else {  // masukkan ke list product non active/ backup delete
                 delProducts[allCategories.indexOf(product.category)].items.push(productByCategory)
             }   
-            
         });
         res.render('Product', { products : allProducts, deleted : delProducts, user:req.session.user || "" });
     }).catch(err => {
