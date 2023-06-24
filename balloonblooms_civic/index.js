@@ -6,9 +6,12 @@ const session = require('express-session');
 // import models module
 const { sequelize } = require('./models/model.js');
 const User = require('./models/user.js');
+const Product = require('./models/product.js');
 
 // import routes module
 const all_routes = require('./routers/all.js');
+
+const admin_product_routes = require('./routers/admin/product.js');
 
 // import controllers module
 const { forAdmin, forUser } = require('./controllers/auth.js');
@@ -40,6 +43,8 @@ try {
 catch (err) {
     console.log("Error !!!", err);
 }
+
+app.use('/admin/product', forAdmin, admin_product_routes)
 
 app.use('/', all_routes)
 

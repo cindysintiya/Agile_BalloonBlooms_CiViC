@@ -1,1 +1,0 @@
-views for all admins only (by login as admin)

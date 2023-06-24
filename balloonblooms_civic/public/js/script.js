@@ -25,3 +25,19 @@ let loadLogout = () => {
     document.getElementById('btnload').style.display = "block"
     alert("Logged out successfully. You will be redirected to Home page.")
 }
+
+// integer to currency : class price
+let prices = document.getElementsByClassName('prices')
+for (let i = 0; i < prices.length; i++) {
+    prices[i].innerHTML = Number(prices[i].innerHTML).toLocaleString('id-id', {
+        style    : 'currency',
+        currency : 'IDR'
+    })
+}
+
+// integer to currency : id price
+let price = document.getElementById('price').innerHTML
+document.getElementById('price').innerHTML = Number(price).toLocaleString('id-id', {
+    style    : 'currency',
+    currency : 'IDR'
+})

@@ -7,7 +7,7 @@
 - Eksekusi command :
   > npm init
 
-  > npm i nodemon express ejs mysql2 sequelize express-session
+  > npm i nodemon express ejs mysql2 sequelize express-session multer
 
   > nodemon index
 
@@ -15,10 +15,11 @@
 - Tahan Ctrl, klik link yang tertulis di terminal (Server running on ...)
 - Atau buka link http://localhost:3000
 
-### DATABASE ERROR
+## DATABASE ERROR
 Jika username atau password database Anda tidak sesuai dan muncul error "Access denied for user ..." saat server dijalankan, lakukan step berikut :
   - Buka file /models/model.js
   - Pada variabel "username" dan "password", ubah sesuai username dan password database Anda
   - Save file
+
 Jalankan ulang server dengan 
-  > nodemon index
+    > nodemon index

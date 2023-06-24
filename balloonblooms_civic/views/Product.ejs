@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/img/pages/BB_Effect3.png">
+    <title>Products - BalloonBlooms CiViC</title>
+    <link rel="stylesheet" href="https://www.unpkg.com/bulma@0.9.3/css/bulma.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/bulmaEdit.css">
+    <link rel="stylesheet" href="/css/stylePolaroid.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header class="header is-size-5">
+        <nav class="navbar is-info is-fluid py-1">
+            <div class="navbar-brand">
+                <a href="/" class="navbar-item ml-3">
+                    <img src="/img/pages/BB_Effect1.png" alt="BalloonBlooms-CiViC">
+                </a>
+                <div class="navbar-burger burger mr-3" data-target="navbarMenu">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </div>
+            </div>
+            <div class="navbar-menu mx-3 has-text-centered" id="navbarMenu">                    
+                <div class="navbar-start">
+                    <a class="navbar-item m-2" href="/">Home</a>
+                    <a class="navbar-item is-active m-2" href="/products">Products</a>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <div class="mx-3" id="userEmail">
+                                <%- (user? user.isAdmin? '<small>Logged in as Admin</small>' : '<small>Logged in as User</small>' : '<small>Not Logged In</small>') %>  <%= user.username %>
+                            </div>
+                            <%- (!user ? '<a href="/login" class="button is-light"><span class="icon is-small is-left mr-1"><i class="fa fa-solid fa-user"></i></span>Login</a>' : '<a href="/logout" id="btnlogout" class="button is-light" onclick="loadLogout()"><span class="icon is-small is-left mr-1"><i class="fa fa-solid fa-right-from-bracket"></i></span>Logout</a>') %>
+                            <button id="btnload" class="button is-loading" style="display: none; width: 150px;"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="app" class="container is-max-widescreen has-text-centered my-5">
+        <div class='py-3 mb-5'>
+            <div class='pb-3' id="product-section">
+                <% products.forEach(group => { %>
+                    <h2 class="mt-4 mb-2 has-text-left is-size-4 mytheme sourceSemi"><span class="pl-5 ml-5"><%= group.category %> </span></h2>
+                    <div class="columns is-multiline mt-5">
+                        <% group.items.forEach(product => { %>
+                            <figure class="column is-3 m-5 has-text-centered mycard" title="<%= product.name %>">
+                                <img src="/img/products/<%= product.code %>.jpg" alt="Image Error" class="fig-img">
+                                <figcaption class="keyword"><%= product.name %></figcaption>
+                                <div class="is-size-5 openSans text-center"><i class="fa fa-solid fa-tags" style="color: pink;"></i> <span class="prices"><%= product.price %></span></div>
+                                <div class="desc has-text-left">
+                                    <b>Include :</b><br/>
+                                    <span class="inc">
+                                        <ul>
+                                            <% product.include.forEach(desc => { %>
+                                                <li style="list-style-type: circle;" class="ml-4"><small><%= desc %></small></li>
+                                            <% }) %>
+                                        </ul>
+                                    </span>
+                                </div>
+                                <% if (user.isAdmin) { %>
+                                    <div class="icon">
+                                        <a href="/admin/product/edit/<%= product.code %>" title="Edit Product"><span class="icon"><i class="is-size-4 fas fa-solid fa-pen-to-square mr-4"></i></span></a>
+                                        <span class="icon" title="Delete Product" onclick=<%='deleteProduct("'+product.code+'")'%>><i class="is-size-4 fas fa-solid fa-trash"></i></span>
+                                    </div>
+                                <% } %>
+                            </figure>
+                        <% }) %>
+                        <% if (user.isAdmin) { %>
+                            <% deleted.forEach(delgroup => { %>
+                                <% if (delgroup.category == group.category) { %>
+                                    <% delgroup.items.forEach(delproduct => { %>
+                                        <a href="/admin/product/deleted/<%= delproduct.code %>" title="Repost Product">
+                                            <figure class="column is-3 m-5 has-text-centered has-text-black mycard" title="Click to see details" style="opacity: 50%;">
+                                                <img src="/img/products/<%= delproduct.code %>.jpg" alt="Image Error" class="fig-img">
+                                                <figcaption class="keyword"><%= delproduct.name %></figcaption>
+                                                <div class="is-size-5 openSans"><span class="prices"><%= delproduct.price %></span></div>
+                                                <div class="desc has-text-left">
+                                                    <b>Include :</b><br/>
+                                                    <span class="inc">
+                                                        <ul>
+                                                            <% delproduct.include.forEach(deldesc => { %>
+                                                                <li style="list-style-type: circle;" class="ml-4"><small><%= deldesc %></small></li>
+                                                            <% }) %>
+                                                        </ul>
+                                                    </span>
+                                                </div>
+                                            </figure>
+                                        </a>
+                                    <% }) %>
+                                <% } %>
+                            <% }) %>
+                            <a href="/admin/product/<%= group.category %>/add">
+                                <figure class="column is-3 m-5 has-text-centered" title="Add New Product">
+                                    <i style="font-size: 100px; color: pink;" class="fa fa-circle-plus"></i>
+                                </figure>
+                            </a>
+                        <% } %>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+        <div class="px-5 py-2 has-text-white" id="wishlistmsg" style="position: fixed; top: 60%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.5); display: none;"></div>
+       
+    </main>
+
+    <footer class="footer has-background-success has-text-centered has-text-white is-size-5">
+        <div class="columns">
+            <div class="column mx-5">
+                <p class="is-size-5 is-vcentered">
+                    <img src="/img/pages/BB_Effect1.png" alt="" width="80px" height="85px">
+                    <b class="mt-5">BALLOON BLOOMS</b>
+                </p>
+                <p>3e Tembaga St., Medan City, North Sumatra, Indonesia</p>
+                <a href="tel: 087776462111" class="text-decoration-none text-pink is-size-4 has-text-weight-bold">Call : +62 877-7646-2111</a><br/>
+            </div>
+            <div class="column mx-5">
+                <p class="has-text-weight-bold mt-4">Quick Links</p>
+                <ul>
+                    <li>
+                        <a class="text-decoration-none m-2" href="/">Home</a>
+                    </li>
+                    <li>
+                        <a class="text-decoration-none m-2" href="/products">Products</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="column mx-5">
+                <p class="has-text-left has-text-weight-bold mt-4 ml-6 pl-5">Subscribe Us</p>
+                <ul>
+                    <li class="mt-2">
+                        <a href="https://www.instagram.com/balloonblooms_medan/" class="text-decoration-none columns is-vcentered my-3">
+                            <img src="/img/pages/ig-image.png" alt="ig" width='40px'>&ensp;balloonblooms_medan
+                        </a>
+                    </li>
+                    <li class="mt-2">
+                        <a href="mailto: info@balloonblooms.com" class="text-decoration-none columns is-vcentered my-3">
+                            <img src="/img/pages/email-image.png" alt="em" width='40px'>&ensp;info@balloonblooms.com
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/js/script.js"></script>
+    <script>
+        // delete product
+        const deleteProduct = (code) => {
+            axios.delete('/admin/product/delete/' + code).then((result) => {
+                alert("Product "+code+" deleted temporary")
+                location.reload()
+            }).catch((err) => {
+                alert('error ' + err)
+            });
+        }
+    </script>
+</body>
+</html>
