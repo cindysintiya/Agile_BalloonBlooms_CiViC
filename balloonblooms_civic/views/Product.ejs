@@ -49,6 +49,19 @@
     </header>
 
     <main id="app" class="container is-max-widescreen has-text-centered my-5">
+        <form class="columns">
+            <div class="column">
+                <p class="control has-icons-left">
+                    <input class="input is-success openSans" type="text" placeholder="Search by name or description ..." id="keyword" name="search" autoComplete="off" oninput="handleKeyUp()">
+                    <span class="icon is-left">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </p>
+            </div>
+        </form>
+        <div class='has-text-grey' onclick="handleLast()" style="position: absolute; top: 55px;">
+            Last Search : <big id="lastKeyword"></big>
+        </div>
         <div class='py-3 mb-5'>
             <div class='pb-3' id="product-section">
                 <% products.forEach(group => { %>
@@ -157,6 +170,51 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/js/script.js"></script>
     <script>
+        // searching product
+        let equal = (text, keyword) => {
+            return text.toLocaleLowerCase().indexOf(keyword.trim().toLocaleLowerCase()) == -1
+        }
+        function handleKeyUp() {
+            let card = document.getElementsByClassName("mycard")
+            let title = document.getElementsByClassName('keyword')
+            let keyword = document.getElementById('keyword').value
+            let description = document.getElementsByClassName('inc')
+            let found = 0
+            for (let i = 0; i < card.length; i++) {
+                let key = title[i].innerText
+                let desc = description[i].innerText
+                if ((equal(key, keyword)) && (equal(desc, keyword))) {
+                    card[i].style.display = "none"
+                }
+                else {
+                    found += 1
+                    card[i].style.display = ""
+                }
+            }
+            if (!found) {
+                document.getElementById('notfound').style.display = 'block'
+                document.getElementById('product-section').style.display = 'none'
+            }
+            else {
+                document.getElementById('notfound').style.display = 'none'
+                document.getElementById('product-section').style.display = 'block'
+            }
+        }
+
+        // handle search enter
+        document.getElementsByTagName('form')[0].addEventListener('submit', (event) => {
+            event.preventDefault();
+            let keyword = document.getElementById('keyword')
+            if (keyword.length != 0) {
+                document.getElementById('lastKeyword').innerHTML = keyword.value
+                keyword.focus()
+            }
+        })
+        function handleLast() {
+            document.getElementById('keyword').value = document.getElementById('lastKeyword').innerText
+            document.getElementById('keyword').focus()
+        }
+
         // delete product
         const deleteProduct = (code) => {
             axios.delete('/admin/product/delete/' + code).then((result) => {
