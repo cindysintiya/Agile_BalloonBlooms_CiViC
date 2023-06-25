@@ -34,7 +34,7 @@
                     <div class="navbar-item">
                         <div class="buttons">
                             <div class="mx-3" id="userEmail">
-                                <%= user.username %>
+                                <%- (user? user.isAdmin? '<small>Logged in as Admin</small>' : '<small>Logged in as User</small>' : '<small>Not Logged In</small>') %>  <%= user.username %>
                             </div>
                             <%- (!user ? '<a href="/login" class="button is-light"><span class="icon is-small is-left mr-1"><i class="fa fa-solid fa-user"></i></span>Login</a>' : '<a href="/logout" id="btnlogout" class="button is-light" onclick="loadLogout()"><span class="icon is-small is-left mr-1"><i class="fa fa-solid fa-right-from-bracket"></i></span>Logout</a>') %>
                             <button id="btnload" class="button is-loading" style="display: none; width: 150px;"></button>
@@ -48,7 +48,7 @@
     <main id="app" class="container is-max-widescreen has-text-centered my-5">
         <h1 class="is-size-2">Admin</h1>
         <div class="is-scrollable">
-            <table class="table is-striped is-bordered is-hoverable is-fullwidth" style="margin:10px auto;">
+            <table class="table is-striped is-bordered is-hoverable is-fullwidth" style="margin:0 auto;">
                 <thead class="has-background-primary is-size-4">
                     <tr>
                         <th>Admin Name</th>
@@ -74,9 +74,9 @@
                 </tbody>
             </table>
         </div>
-        <h1 class="is-size-2">User</h1>
+        <h1 class="is-size-2 mt-5">User</h1>
         <div class="is-scrollable">
-            <table class="table is-striped is-bordered is-hoverable is-fullwidth" style="margin:10px auto;">
+            <table class="table is-striped is-bordered is-hoverable is-fullwidth" style="margin:0 auto;">
                 <thead class="has-background-primary is-size-4">
                     <tr>
                         <th>User Name</th>

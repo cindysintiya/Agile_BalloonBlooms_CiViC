@@ -55,6 +55,10 @@ app.get('(/home)?', (req, res) => {
     res.render('Home', { user: req.session.user || "" });
 })
 
+app.get('/forbidden', (req, res) => {
+    res.render('Forbidden', { user: req.session.user || "" });
+})
+
 app.get('*', (req, res) => {
     res.end("<h1>Under Construction. Please comeback later ^^</h1>")
 })
