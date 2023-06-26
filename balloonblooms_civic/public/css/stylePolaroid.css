@@ -75,6 +75,13 @@ figure div.desc>div{
     left: 6%;
     padding: 5%;
 }
+figure span.like-me{
+    position: absolute;
+    bottom: -1%;
+    right: 0;
+    padding: 5%;
+    cursor: pointer;
+}
 figure div.icon{
     position: absolute;
     bottom: 2%;

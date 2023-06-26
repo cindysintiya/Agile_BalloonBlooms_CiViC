@@ -5,8 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/img/pages/BB_Effect3.png">
-    <meta http-equiv="refresh" content="4;url=/login">  <!--Redirecting page in n seconds-->
-    <title>Forbidden - BalloonBlooms CiViC</title>
+    <title>Wishlist - BalloonBlooms CiViC</title>
     <link rel="stylesheet" href="https://www.unpkg.com/bulma@0.9.3/css/bulma.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <link rel="stylesheet" href="/css/bulmaEdit.css">
@@ -29,12 +28,7 @@
                 <div class="navbar-start">
                     <a class="navbar-item m-2" href="/">Home</a>
                     <a class="navbar-item m-2" href="/products">Products</a>
-                    <% if (user && !user.isAdmin) { %>
-                        <a class="navbar-item m-2" href="/user/wishlist">Wishlist</a>
-                    <% } %>
-                    <% if (user.isAdmin) { %>
-                        <a class="navbar-item m-2" href="/admin/user-list">User List</a>
-                    <% } %>
+                    <a class="navbar-item is-active m-2" href="/user/wishlist">Wishlist</a>
                 </div>
                 <div class="navbar-end">
                     <div class="navbar-item">
@@ -51,17 +45,41 @@
         </nav>
     </header>
 
-    <main id="app" class="container is-max-widescreen has-text-centered my-6">
-        <h2 class="mt-6 mb-4 is-size-2">You are not allowed to access this page. <br> Please login to authenticate your identity.</h2>
-        <div class="buttons is-centered is-grouped columns column is-4 is-offset-4">
-            <p class="control">
-                <a href="/" id="home" class="button is-primary is-medium mx-3">Back to Home</a>
-            </p>
-            <p class="control">
-                <a href="/login" id="home" class="button is-info is-medium mx-3">Login</a>
-            </p>
-        </div>
-        <p class="mb-3 is-size-5">Redirecting to Login page in 3 secs ...</p>
+    <main id="app" class="container is-max-widescreen has-text-left my-5">
+        <% if (product.length == 0) { %>
+            <div class="has-text-centered">
+                <p class="is-size-3 mt-6">There's literally nothing in your Wishlist.</p>
+                <p class="is-size-4 mb-5">Please comeback after you look around our product in Products' page :D</p>
+                <a href="/products" class="button is-primary is-medium mx-3">Back to Products</a>
+            </div>
+        <% } else { %>
+            <p class="is-size-2 has-text-centered">Welcome to your Wishlist !</p>
+            <p class="is-size-5 has-text-centered has-text-grey mb-5">Don't let your favorite product(s) idle too long >v<</p>
+            <% product.forEach(item => { %>
+                <div class="box columns column is-6 is-offset-3 mb-5">
+                    <article class="media">
+                        <div class="media-left">
+                            <img src="/img/products/<%= item.code %>.jpg" alt="<%= item.code %>" style="width: 140px; height: 165px; object-fit: cover;">
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <strong class="is-size-4"><%= item.name %></strong> <small class="media-right"><%= item.code %></small>
+                                    <br>
+                                    <span class="prices is-size-5"><%= item.price %></span>
+                                    <br>
+                                    <%= item.include.join(', ') %> 
+                                </p>
+                            </div>
+                            <div>
+                                <button class="button is-danger" onclick="unlike('<%= item.code %>')">Remove from Wishlist</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            <% }) %>
+        <% } %>
     </main>
 
     <footer class="footer has-background-success has-text-centered has-text-white is-size-5">
@@ -103,9 +121,18 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/js/script.js"></script>
     <script>
-        //
+        // remove from wishlist
+        function unlike(code) {
+            axios.delete('/user/wishlist/remove/' + code).then((result) => {
+                location.reload()
+            }).catch((err) => {
+                alert('something went wrong !!!')
+            });
+        }
+
     </script>
 </body>
 </html>

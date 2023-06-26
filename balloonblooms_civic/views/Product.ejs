@@ -29,6 +29,9 @@
                 <div class="navbar-start">
                     <a class="navbar-item m-2" href="/">Home</a>
                     <a class="navbar-item is-active m-2" href="/products">Products</a>
+                    <% if (user && !user.isAdmin) { %>
+                        <a class="navbar-item m-2" href="/user/wishlist">Wishlist</a>
+                    <% } %>
                     <% if (user.isAdmin) { %>
                         <a class="navbar-item m-2" href="/admin/user-list">User List</a>
                     <% } %>
@@ -58,6 +61,13 @@
                     </span>
                 </p>
             </div>
+            <% if (!user.isAdmin && user) { %>
+                <div class="column is-narrow">
+                    <a href="/user/wishlist" class="button is-success" title="Wishlist">
+                        <i style="font-size: 25px" class="fa">&#xf07a; </i>
+                    </a>
+                </div>
+            <% } %>
         </form>
         <div class='has-text-grey' onclick="handleLast()" style="position: absolute; top: 55px;">
             Last Search : <big id="lastKeyword"></big>
@@ -71,7 +81,7 @@
                             <figure class="column is-3 m-5 has-text-centered mycard" title="<%= product.name %>">
                                 <img src="/img/products/<%= product.code %>.jpg" alt="Image Error" class="fig-img">
                                 <figcaption class="keyword"><%= product.name %></figcaption>
-                                <div class="is-size-5 openSans text-center"><i class="fa fa-solid fa-tags" style="color: pink;"></i> <span class="prices"><%= product.price %></span></div>
+                                <div class="is-size-5 openSans text-center"><span id="totallike<%= product.code %>" title="<% if (product.likes.length>0 && product.likes.length<=2) { %>Liked by <%= product.likes.join(', ') %><% } else if (product.likes.length>0) { %>Liked by <%= product.likes[0] %>, <%= product.likes[1] %>, and more<% } else { %>No like<% } %>" ><%= product.likes.length %></span> <i class="fa fa-solid fa-heart" style="color: pink;"></i> | <span class="prices"><%= product.price %></span></div>
                                 <div class="desc has-text-left">
                                     <b>Include :</b><br/>
                                     <span class="inc">
@@ -87,6 +97,16 @@
                                         <a href="/admin/product/edit/<%= product.code %>" title="Edit Product"><span class="icon"><i class="is-size-4 fas fa-solid fa-pen-to-square mr-4"></i></span></a>
                                         <span class="icon" title="Delete Product" onclick=<%='deleteProduct("'+product.code+'")'%>><i class="is-size-4 fas fa-solid fa-trash"></i></span>
                                     </div>
+                                <% } else if (user) { %>
+                                    <span class="like-me">
+                                        <% if (product.likes.includes(user.username)) { %>
+                                            <i style="display: block; color: pink;" id="like<%= product.code %>" onclick="unlike('<%= product.code %>')" class="fa fa-solid fa-heart is-size-3" title="Remove from Wishlist"></i>
+                                            <i style="display: none; color: pink;" id="unlike<%= product.code %>" onclick="like('<%= product.code %>')" class="fa fa-regular fa-heart is-size-3" title="Add to Wishlist"></i>
+                                        <% } else { %>
+                                            <i style="display: block; color: pink;" id="unlike<%= product.code %>" onclick="like('<%= product.code %>')" class="fa fa-regular fa-heart is-size-3" title="Add to Wishlist"></i>
+                                            <i style="display: none; color: pink;" id="like<%= product.code %>" onclick="unlike('<%= product.code %>')" class="fa fa-solid fa-heart is-size-3" title="Remove from Wishlist"></i>
+                                        <% } %>
+                                    </span>
                                 <% } %>
                             </figure>
                         <% }) %>
@@ -213,6 +233,74 @@
         function handleLast() {
             document.getElementById('keyword').value = document.getElementById('lastKeyword').innerText
             document.getElementById('keyword').focus()
+        }
+
+        // like/ unlike
+        function like(code) {
+            axios({
+                method: 'post', 
+                url: '/user/wishlist/add/' + code, 
+                data: {
+                    name  : document.getElementById("userEmail").innerText.trim()
+                }
+            }).then((result) => {
+                document.getElementById('like'+code).style.display = 'block'
+                document.getElementById('unlike'+code).style.display = 'none'
+                let totallike = document.getElementById('totallike'+code)
+                totallike.innerText = parseInt(document.getElementById('totallike'+code).innerText) + 1
+                if (totallike.innerText == 1) {
+                    document.getElementById('totallike'+code).title = "Liked by " + document.getElementById('userEmail').innerText
+                }
+                else if (totallike.innerText == 2) {
+                    document.getElementById('totallike'+code).title += ', ' + document.getElementById('userEmail').innerText
+                }
+                else if (totallike.innerText == 3) {
+                    document.getElementById('totallike'+code).title += ', and more'
+                }
+                setTimeout(() => {
+                    document.getElementById("wishlistmsg").style.display = 'block'
+                    document.getElementById("wishlistmsg").innerHTML = '<p class="is-size-5">Added to Wishlist ! <br> <span class="is-size-6">Thanks for your like. You can check it out on your <a href="/user/wishlist" class="has-text-weight-bold has-text-light">Wishlist</a> for more details!</span></p>'
+                }, 200)
+                setTimeout(() => {
+                    document.getElementById('wishlistmsg').style.display = 'none'
+                }, 4000)
+            }).catch((err) => {
+                document.getElementById("wishlistmsg").style.display = 'block'
+                document.getElementById("wishlistmsg").innerHTML = '<p class="is-size-5">Something went wrong !!!<br> <span class="is-size-6">Please check your connection or maybe it`s just an internal server error</span></p>'
+                setTimeout(() => {
+                    document.getElementById('wishlistmsg').style.display = 'none'
+                }, 4000)
+            });
+        }
+        function unlike(code) {
+            axios.delete('/user/wishlist/remove/' + code).then((result) => {
+                document.getElementById('like'+code).style.display = 'none'
+                document.getElementById('unlike'+code).style.display = 'block'
+                let totallike = document.getElementById('totallike'+code)
+                totallike.innerText -= 1
+                if (totallike.innerText == 0) {
+                    document.getElementById('totallike'+code).title = "No like"
+                }
+                else if (totallike.innerText == 1) {
+                    document.getElementById('totallike'+code).title = totallike.title.substring(0, totallike.title.length-document.getElementById('userEmail').innerText.length-2)
+                }
+                else if (totallike.innerText == 2) {
+                    document.getElementById('totallike'+code).title = totallike.title.substring(0, totallike.title.length-10)
+                }
+                setTimeout(() => {
+                    document.getElementById("wishlistmsg").style.display = 'block'
+                    document.getElementById("wishlistmsg").innerHTML = '<p class="is-size-5">Removed from Wishlist ! <br> <span class="is-size-6">No longer interested? Check out another products that you like on your <a href="/user/wishlist" class="has-text-weight-bold has-text-light">Wishlist</a>!</span></p>'
+                }, 200)
+                setTimeout(() => {
+                    document.getElementById('wishlistmsg').style.display = 'none'
+                }, 4000)
+            }).catch((err) => {
+                document.getElementById("wishlistmsg").style.display = 'block'
+                document.getElementById("wishlistmsg").innerHTML = '<p class="is-size-5">Something went wrong !!!<br> <span class="is-size-6">Please check your connection or maybe it`s just an internal server error</span></p>'
+                setTimeout(() => {
+                    document.getElementById('wishlistmsg').style.display = 'none'
+                }, 4000)
+            });
         }
 
         // delete product

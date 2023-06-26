@@ -11,6 +11,8 @@ const Product = require('./models/product.js');
 // import routes module
 const all_routes = require('./routers/all.js');
 
+const user_wishlist_routes = require('./routers/user/wishlist.js');
+
 const admin_user_routes = require('./routers/admin/user.js');
 const admin_product_routes = require('./routers/admin/product.js');
 
@@ -45,6 +47,8 @@ try {
 catch (err) {
     console.log("Error !!!", err);
 }
+
+app.use('/user/wishlist', forUser, user_wishlist_routes)
 
 app.use('/admin/product', forAdmin, admin_product_routes)
 app.use('/admin/user-list', forAdmin, admin_user_routes)

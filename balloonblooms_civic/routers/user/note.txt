@@ -1,1 +1,0 @@
-only authenticate users can access this route

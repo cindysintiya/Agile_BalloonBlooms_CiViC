@@ -1,1 +1,0 @@
-views for all authenticate users (by login as user)
