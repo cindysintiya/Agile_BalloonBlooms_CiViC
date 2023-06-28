@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const { renameSync, unlinkSync } = require('fs');
+const Comment = require('../../models/comment.js');
 const Product = require('../../models/product.js');
 
 const router = express.Router();
@@ -24,7 +25,13 @@ router.get('/edit/:code', (req, res) => {
     ).then((productByCode) => {
         productByCode.include = JSON.parse(productByCode.include)
         productByCode.likes = JSON.parse(productByCode.likes)
-        res.render('admin/ProductEdit', { product : productByCode , user : req.session.user || "" });
+        Comment.findAll(
+            { where: {product_code: req.params.code} }
+        ).then((allComments) => {
+            res.render('admin/ProductEdit', { product : productByCode , comments : allComments, user : req.session.user || "" });
+        }).catch(err => {
+            res.json({ status: 502, error: err });
+        })
     }).catch(err => {
         let productNotFound = {
             id      : 0,
@@ -34,7 +41,7 @@ router.get('/edit/:code', (req, res) => {
             include : ["-"],
             likes   : []
         }
-        res.render('admin/ProductEdit', { product : productNotFound , user : req.session.user || "" });
+        res.render('admin/ProductEdit', { product : productNotFound, comments : [], user : req.session.user || "" });
     })
 })
 
@@ -46,7 +53,7 @@ router.put('/edit/:code', (req, res) => {
         include : JSON.stringify(req.body.desc)
     }, { where: {code: req.params.code}
     }).then((product) => {
-        res.send("product "+req.params.code + " edited successfully")
+        res.send("product " + req.params.code + " edited successfully")
     }).catch(err => {
         res.json({ status: 502, error: err });
     })
@@ -58,7 +65,13 @@ router.get('/deleted/:code', (req, res) => {
     ).then((productByCode) => {
         productByCode.include = JSON.parse(productByCode.include)
         productByCode.likes = JSON.parse(productByCode.likes)
-        res.render('admin/ProductRepost', { product : productByCode , user : req.session.user || "" });
+        Comment.findAll(
+            { where: {product_code: req.params.code} }
+        ).then((allComments) => {
+            res.render('admin/ProductRepost', { product : productByCode , comments : allComments, user : req.session.user || "" });
+        }).catch(err => {
+            res.render('admin/ProductRepost', { product : productByCode , comments : [], user : req.session.user || "" });
+        })
     }).catch(err => {
         let productNotFound = {
             id      : 0,
@@ -93,16 +106,16 @@ router.post('/repost/:code', upload.single("image"), async (req, res) => {
             name     : req.body.name, 
             price    : req.body.price, 
             include  : JSON.stringify(listDesc),
-            status   : 1
+            status : 1
         }, { where: {code: req.params.code} }
         ).then((product) => {
-            res.redirect('/products')
+            res.redirect('/product/comments/'+req.params.code)
         }).catch(err => {
             res.json({ status: 502, error: err });
         })
     }
     catch (err) {
-        res.redirect('/product')
+        res.redirect('/product/comments/'+req.params.code)
     }
 })
 
@@ -173,6 +186,14 @@ router.post('/:category/add', upload.single("image"), async (req, res) => {
     catch (err) {
         res.json({ status: 502, error: err });
     }
+})
+
+router.delete('/comment/:id', (req, res) => {
+    Comment.destroy({ where : { id : req.params.id } }).then((result) => {
+        res.send("comment berhasil dihapus")
+    }).catch(err => {
+        res.json({ status: 502, error: err });
+    })
 })
 
 module.exports = router;

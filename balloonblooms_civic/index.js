@@ -7,16 +7,18 @@ const session = require('express-session');
 const { sequelize } = require('./models/model.js');
 const User = require('./models/user.js');
 const Product = require('./models/product.js');
+const Comment = require('./models/comment.js');
 
 // import routes module
 const all_routes = require('./routers/all.js');
 
+const user_product_routes = require('./routers/user/product.js');
 const user_wishlist_routes = require('./routers/user/wishlist.js');
 
 const admin_user_routes = require('./routers/admin/user.js');
 const admin_product_routes = require('./routers/admin/product.js');
 
-// import controllers module
+// import controller module
 const { forAdmin, forUser } = require('./controllers/auth.js');
 
 const app = express();
@@ -37,21 +39,22 @@ app.use(session({
     }
 }))
 
-
 // biar bisa otomatis terbuat dulu tabelnya
 try {
     sequelize.authenticate()
     User.sync()
     Product.sync()
+    Comment.sync()
 }
 catch (err) {
     console.log("Error !!!", err);
 }
 
+app.use('/user/product', forUser, user_product_routes)
 app.use('/user/wishlist', forUser, user_wishlist_routes)
 
-app.use('/admin/product', forAdmin, admin_product_routes)
 app.use('/admin/user-list', forAdmin, admin_user_routes)
+app.use('/admin/product', forAdmin, admin_product_routes)
 
 app.use('/', all_routes)
 
@@ -64,7 +67,7 @@ app.get('/forbidden', (req, res) => {
 })
 
 app.get('*', (req, res) => {
-    res.end("<h1>Under Construction. Please comeback later ^^</h1>")
+    res.render('PageNotFound', { user: req.session.user || "" })
 })
 
 const PORT = process.env.PORT || 3000;

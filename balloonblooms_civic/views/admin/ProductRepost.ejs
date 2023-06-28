@@ -98,6 +98,42 @@
                 </div>
             </nav>
         </form>
+        
+        <hr>
+
+        <div class="columns is-multiline column is-8 is-offset-2">
+            <% if (comments.length == 0) { %>
+                <div class="has-text-centered" style="width: 100%;">
+                    <p class="is-size-3 my-5"><b>No Comments Yet!</b></p>
+                </div>
+            <% } else { %>
+                <div id="comments-area" style="width: 100%; max-height: 300px; overflow-y: scroll;">
+                    <% comments.forEach(comment => { %>
+                        <article class="media has-text-left">
+                            <figure class="media-left">
+                                <p class="image is-64x64">
+                                    <img class="avatar" src="https://xsgames.co/randomusers/assets/avatars/pixel/<%= comment.user_id %>.jpg" alt="<%= comment.username[0] %> ">
+                                </p>
+                            </figure>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <strong class="is-size-5 username"><%= comment.username %></strong> &emsp; <small class="datetime"><%= comment.createdAt %></small>
+                                        <br><span class="has-background-warning rounded px-2 mr-2 new" style="display: none;">New</span>
+                                        <span class="comments"><%= comment.comment_text %> </span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="media-right mt-3">
+                                <% if (user.isAdmin || user.username == comment.username) { %>
+                                    <button class="button is-danger mr-1">Delete</button>
+                                <% } %>
+                            </div>
+                        </article>
+                    <% }) %>
+                </div>
+            <% } %>
+        </div>
     </main>
         
     <footer class="footer has-background-success has-text-centered has-text-white is-size-5">
@@ -180,6 +216,20 @@
             }).catch((err) => {
                 alert('error ' + err)
             });
+        }
+        
+        // bold username tag
+        let comments = document.getElementsByClassName('comments')
+        for (let i = 0; i < comments.length; i++) {
+            let comment = comments[i].innerText.split(' ')
+            let j = 0
+            comment.forEach(text => {
+                if (text[0] == '@') {
+                    comment[j] = '<b class="has-text-info">'+text+'</b>'
+                }
+                j+=1
+            });
+            comments[i].innerHTML = comment.join(' ')
         }
     </script>
 </body>
