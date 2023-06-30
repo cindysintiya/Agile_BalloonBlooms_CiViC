@@ -29,11 +29,13 @@
                 <div class="navbar-start">
                     <a class="navbar-item m-2" href="/">Home</a>
                     <a class="navbar-item is-active m-2" href="/products">Products</a>
-                    <% if (user && !user.isAdmin) { %>
-                        <a class="navbar-item m-2" href="/user/wishlist">Wishlist</a>
-                    <% } %>
-                    <% if (user.isAdmin) { %>
-                        <a class="navbar-item m-2" href="/admin/user-list">User List</a>
+                    <% if (user) { %>
+                        <a class="navbar-item m-2" href="/user/custom/BBC2111">Custom</a>
+                        <% if (!user.isAdmin) { %>
+                            <a class="navbar-item m-2" href="/user/wishlist">Wishlist</a>
+                        <% } else { %>
+                            <a class="navbar-item m-2" href="/admin/user-list">User List</a>
+                        <% } %>
                     <% } %>
                 </div>
                 <div class="navbar-end">
@@ -92,6 +94,7 @@
                                         </ul>
                                     </span>
                                     <div>
+                                        <a <% if (user) { %> href="/user/custom/<%= product.code %>" <% } else { %> href="/login"<% } %> class="mr-1"><input type="submit" value="CUSTOM" title="<%- (user? 'Custom Now' : 'Login to Custom') %>"></a>
                                         <a href="/product/comments/<%= product.code %>"><input type="button" value="Discussions" title="Read Comments"></a>
                                     </div>
                                 </div>
@@ -148,8 +151,16 @@
             </div>
         </div>
         <div class="px-5 py-2 has-text-white" id="wishlistmsg" style="position: fixed; top: 60%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.5); display: none;"></div>
-       
     </main>
+
+    <div style="position: sticky; bottom: 0; width: 100%;">
+        <div class="columns has-background-light sourceSemi">
+            <div class='column is-6 has-text-right is-size-5 mt-1'>Can't find what you want?</div>
+            <div class='column has-text-left'>
+                <%- user? '<a href="/user/custom/BBC2111" class="button is-success">Custom Yours Now</a>' : '<a href="/login" class="button is-info">Login to Custom</a>' %>
+            </div>
+        </div>
+    </div>
 
     <footer class="footer has-background-success has-text-centered has-text-white is-size-5">
         <div class="columns">
@@ -169,6 +180,11 @@
                     </li>
                     <li>
                         <a class="text-decoration-none m-2" href="/products">Products</a>
+                    </li>
+                    <li>
+                        <% if (user) { %>
+                            <a class="text-decoration-none m-2" href="/user/custom/BBC2111">Custom</a>
+                        <% } %>
                     </li>
                 </ul>
             </div>

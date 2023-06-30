@@ -8,12 +8,14 @@ const { sequelize } = require('./models/model.js');
 const User = require('./models/user.js');
 const Product = require('./models/product.js');
 const Comment = require('./models/comment.js');
+const Order = require('./models/order.js');
 
 // import routes module
 const all_routes = require('./routers/all.js');
 
 const user_product_routes = require('./routers/user/product.js');
 const user_wishlist_routes = require('./routers/user/wishlist.js');
+const user_custom_routes = require('./routers/user/custom.js');
 
 const admin_user_routes = require('./routers/admin/user.js');
 const admin_product_routes = require('./routers/admin/product.js');
@@ -45,6 +47,7 @@ try {
     User.sync()
     Product.sync()
     Comment.sync()
+    Order.sync()
 }
 catch (err) {
     console.log("Error !!!", err);
@@ -52,6 +55,7 @@ catch (err) {
 
 app.use('/user/product', forUser, user_product_routes)
 app.use('/user/wishlist', forUser, user_wishlist_routes)
+app.use('/user/custom', forUser, user_custom_routes)
 
 app.use('/admin/user-list', forAdmin, admin_user_routes)
 app.use('/admin/product', forAdmin, admin_product_routes)
@@ -70,7 +74,7 @@ app.get('*', (req, res) => {
     res.render('PageNotFound', { user: req.session.user || "" })
 })
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
 });

@@ -29,11 +29,13 @@
                 <div class="navbar-start">
                     <a class="navbar-item m-2" href="/">Home</a>
                     <a class="navbar-item is-active m-2" href="/products">Products</a>
-                    <% if (user && !user.isAdmin) { %>
-                        <a class="navbar-item m-2" href="/user/wishlist">Wishlist</a>
-                    <% } %>
-                    <% if (user.isAdmin) { %>
-                        <a class="navbar-item m-2" href="/admin/user-list">User List</a>
+                    <% if (user) { %>
+                        <a class="navbar-item m-2" href="/user/custom/BBC2111">Custom</a>
+                        <% if (!user.isAdmin) { %>
+                            <a class="navbar-item m-2" href="/user/wishlist">Wishlist</a>
+                        <% } else { %>
+                            <a class="navbar-item m-2" href="/admin/user-list">User List</a>
+                        <% } %>
                     <% } %>
                 </div>
                 <div class="navbar-end">
@@ -62,7 +64,7 @@
             <div class="container">
                 <div class="m-auto p-2 card card-content ref-card rounded columns column is-6">
                     <div class="ml-2 column">
-                        <img src="/img/products/<%= product.code %>.jpg" alt="Image Error" class="rounded" style="width: 220px; height: 250px; object-fit: cover;"/>
+                        <a <% if (user) { %> href="/user/custom/<%= product.code %>" <% } else { %> href="/login"<% } %>><img src="/img/products/<%= product.code %>.jpg" alt="Image Error" class="rounded" <% if (user) { %> title="Click to Custom" <% } else { %> title="Login to Custom"<% } %> style="width: 220px; height: 250px; object-fit: cover;"/></a>
                     </div>
                     <div class="column is-8 media-content">
                         <div class="has-text-left">
@@ -180,6 +182,11 @@
                     <li>
                         <a class="text-decoration-none m-2" href="/products">Products</a>
                     </li>
+                    <li>
+                        <% if (user) { %>
+                            <a class="text-decoration-none m-2" href="/user/custom/BBC2111">Custom</a>
+                        <% } %>
+                    </li>
                 </ul>
             </div>
             <div class="column mx-5">
@@ -269,7 +276,7 @@
             if (isAdmin == 'true') status = 'admin'
             else status = 'user'
             axios.delete('/' + status + '/product/comment/' + id).then((result) => {
-                alert("Your comment deleted successfully")
+                alert("Comment deleted successfully")
                 location.reload()
             }).catch((err) => {
                 alert('error ' + err)

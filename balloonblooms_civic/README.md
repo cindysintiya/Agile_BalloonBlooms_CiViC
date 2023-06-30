@@ -23,4 +23,4 @@ Jika username atau password database Anda tidak sesuai dan muncul error "Access 
 
 Jalankan ulang server dengan 
 
-    > nodemon index
+  > nodemon index

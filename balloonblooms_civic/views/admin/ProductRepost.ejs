@@ -28,6 +28,7 @@
                 <div class="navbar-start">
                     <a class="navbar-item m-2" href="/">Home</a>
                     <a class="navbar-item is-active m-2" href="/products">Products</a>
+                    <a class="navbar-item m-2" href="/user/custom/BBC2111">Custom</a>
                     <a class="navbar-item m-2" href="/admin/user-list">User List</a>
                 </div>
                 <div class="navbar-end">
@@ -155,6 +156,9 @@
                     <li>
                         <a class="text-decoration-none m-2" href="/products">Products</a>
                     </li>
+                    <li>
+                        <a class="text-decoration-none m-2" href="/user/custom/BBC2111">Custom</a>
+                    </li>
                 </ul>
             </div>
             <div class="column mx-5">
@@ -230,6 +234,16 @@
                 j+=1
             });
             comments[i].innerHTML = comment.join(' ')
+        }
+
+        // handle delete comment
+        const delComment = (id) => {
+            axios.delete('/admin/product/comment/' + id).then((result) => {
+                alert("Comment #" + id + " deleted successfully")
+                location.reload()
+            }).catch((err) => {
+                alert('error ' + err)
+            });
         }
     </script>
 </body>

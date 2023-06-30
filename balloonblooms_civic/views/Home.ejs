@@ -29,11 +29,13 @@
                 <div class="navbar-start">
                     <a class="navbar-item is-active m-2" href="/">Home</a>
                     <a class="navbar-item m-2" href="/products">Products</a>
-                    <% if (user && !user.isAdmin) { %>
-                        <a class="navbar-item m-2" href="/user/wishlist">Wishlist</a>
-                    <% } %>
-                    <% if (user.isAdmin) { %>
-                        <a class="navbar-item m-2" href="/admin/user-list">User List</a>
+                    <% if (user) { %>
+                        <a class="navbar-item m-2" href="/user/custom/BBC2111">Custom</a>
+                        <% if (!user.isAdmin) { %>
+                            <a class="navbar-item m-2" href="/user/wishlist">Wishlist</a>
+                        <% } else { %>
+                            <a class="navbar-item m-2" href="/admin/user-list">User List</a>
+                        <% } %>
                     <% } %>
                 </div>
                 <div class="navbar-end">
@@ -151,6 +153,11 @@
                     </li>
                     <li>
                         <a class="text-decoration-none m-2" href="/products">Products</a>
+                    </li>
+                    <li>
+                        <% if (user) { %>
+                            <a class="text-decoration-none m-2" href="/user/custom/BBC2111">Custom</a>
+                        <% } %>
                     </li>
                 </ul>
             </div>

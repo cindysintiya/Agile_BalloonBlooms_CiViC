@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/img/pages/BB_Effect3.png">
-    <meta http-equiv="refresh" content="4;url=/login">  <!--Redirecting page in n seconds-->
-    <title>Forbidden - BalloonBlooms CiViC</title>
+    <link rel="icon" href="/public/img/pages/BB_Effect3.png">
+    <title>Custom - BalloonBlooms CiViC</title>
     <link rel="stylesheet" href="https://www.unpkg.com/bulma@0.9.3/css/bulma.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <link rel="stylesheet" href="/css/bulmaEdit.css">
@@ -29,20 +28,14 @@
                 <div class="navbar-start">
                     <a class="navbar-item m-2" href="/">Home</a>
                     <a class="navbar-item m-2" href="/products">Products</a>
-                    <% if (user) { %>
-                        <a class="navbar-item m-2" href="/user/custom/BBC2111">Custom</a>
-                        <% if (!user.isAdmin) { %>
-                            <a class="navbar-item m-2" href="/user/wishlist">Wishlist</a>
-                        <% } else { %>
-                            <a class="navbar-item m-2" href="/admin/user-list">User List</a>
-                        <% } %>
-                    <% } %>
+                    <a class="navbar-item is-active m-2" href="/user/custom/BBC2111">Custom</a>
+                    <a class="navbar-item m-2" href="/user/wishlist">Wishlist</a>
                 </div>
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="buttons">
                             <div class="mx-3" id="userEmail">
-                                <%- (user? user.isAdmin? '<small>Logged in as Admin</small>' : '<small>Logged in as User</small>' : '<small>Not Logged In</small>') %>  <%= user.username %>
+                                <%= user.username %>
                             </div>
                             <%- (!user ? '<a href="/login" class="button is-light"><span class="icon is-small is-left mr-1"><i class="fa fa-solid fa-user"></i></span>Login</a>' : '<a href="/logout" id="btnlogout" class="button is-light" onclick="loadLogout()"><span class="icon is-small is-left mr-1"><i class="fa fa-solid fa-right-from-bracket"></i></span>Logout</a>') %>
                             <button id="btnload" class="button is-loading" style="display: none; width: 150px;"></button>
@@ -54,16 +47,13 @@
     </header>
 
     <main id="app" class="container is-max-widescreen has-text-centered my-6">
-        <h2 class="mt-6 mb-4 is-size-2">You are not allowed to access this page. <br> Please login to authenticate your identity.</h2>
-        <div class="buttons is-centered is-grouped columns column is-4 is-offset-4">
-            <p class="control">
-                <a href="/" id="home" class="button is-primary is-medium mx-3">Back to Home</a>
-            </p>
-            <p class="control">
-                <a href="/login" id="home" class="button is-info is-medium mx-3">Login</a>
-            </p>
-        </div>
-        <p class="mb-3 is-size-5">Redirecting to Login page in 3 secs ...</p>
+        <h1 class="title">Thank You For Ordering From Us</h1>
+        <p class="is-size-4">Your form has been submitted and we will response your ordered as soon as possible</p>
+        <p class="my-5 is-size-5">For more information, chat to WhatsApp number 
+            <a href="tel: +6287776462111" class="text-decoration-none text-pink is-size-5 has-text-weight-bold"> +(62) 877-7646-2111</a>
+        </p>
+        <a href="/products" class="button is-success p-3 px-4 m-3 is-size-5">Check another Products</a>
+        <a href="/" class="button is-primary p-3 px-4 m-3 is-size-5">Back to Home Page</a>
     </main>
 
     <footer class="footer has-background-success has-text-centered has-text-white is-size-5">
@@ -86,9 +76,7 @@
                         <a class="text-decoration-none m-2" href="/products">Products</a>
                     </li>
                     <li>
-                        <% if (user) { %>
-                            <a class="text-decoration-none m-2" href="/user/custom/BBC2111">Custom</a>
-                        <% } %>
+                        <a class="text-decoration-none m-2" href="/user/custom/BBC2111">Custom</a>
                     </li>
                 </ul>
             </div>
