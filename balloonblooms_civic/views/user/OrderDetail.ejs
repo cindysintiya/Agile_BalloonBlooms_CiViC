@@ -5,14 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/img/pages/BB_Effect3.png">
-    <title>Wishlist - BalloonBlooms CiViC</title>
+    <title>Order Detail - BalloonBlooms CiViC</title>
     <link rel="stylesheet" href="https://www.unpkg.com/bulma@0.9.3/css/bulma.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <link rel="stylesheet" href="/css/bulmaEdit.css">
+    <link rel="stylesheet" href="/css/styleOrder.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <header class="header is-size-5">
+    <header class="header is-size-5" style="position: relative;">
         <nav class="navbar is-info is-fluid py-2">
             <div class="navbar-brand">
                 <a href="/" class="navbar-item ml-3">
@@ -29,11 +30,12 @@
                     <a class="navbar-item m-2" href="/">Home</a>
                     <a class="navbar-item m-2" href="/products">Products</a>
                     <a class="navbar-item m-2" href="/user/custom/BBC2111">Custom</a>
-                    <a class="navbar-item is-active m-2" href="/user/wishlist">Wishlist</a>
-                    <% if (user.isAdmin) { %>
-                        <a class="navbar-item m-2" href="/admin/order/order-list">Order List</a>
+                    <% if (!user.isAdmin) { %>
+                        <a class="navbar-item m-2" href="/user/wishlist">Wishlist</a>
+                        <a class="navbar-item is-active m-2" href="/user/order/order-list">Order List</a>
                     <% } else { %>
-                        <a class="navbar-item m-2" href="/user/order/order-list">Order List</a>
+                        <a class="navbar-item is-active m-2" href="/admin/order/order-list">Order List</a>
+                        <a class="navbar-item m-2" href="/admin/user-list">User List</a>
                     <% } %>
                 </div>
                 <div class="navbar-end">
@@ -52,40 +54,10 @@
     </header>
 
     <main id="app" class="container is-max-widescreen has-text-left my-5">
-        <% if (product.length == 0) { %>
-            <div class="has-text-centered">
-                <p class="is-size-3 mt-6">There's literally nothing in your Wishlist.</p>
-                <p class="is-size-4 mb-5">Please comeback after you look around our product in Products' page :D</p>
-                <a href="/products" class="button is-primary is-medium mx-3">Back to Products</a>
-            </div>
-        <% } else { %>
-            <p class="is-size-2 has-text-centered">Welcome to your Wishlist !</p>
-            <p class="is-size-5 has-text-centered has-text-grey mb-5">Don't let your favorite product(s) idle too long >v<</p>
-            <% product.forEach(item => { %>
-                <div class="box columns column is-6 is-offset-3 mb-5">
-                    <article class="media">
-                        <div class="media-left">
-                            <img src="/img/products/<%= item.code %>.jpg" alt="<%= item.code %>" style="width: 140px; height: 165px; object-fit: cover;">
-                            </figure>
-                        </div>
-                        <div class="media-content">
-                            <div class="content">
-                                <p>
-                                    <strong class="is-size-4"><%= item.name %></strong> <small class="media-right"><%= item.code %></small>
-                                    <br>
-                                    <span class="prices is-size-5"><%= item.price %></span>
-                                    <br>
-                                    <%= item.include.join(', ') %> 
-                                </p>
-                            </div>
-                            <div>
-                                <button class="button is-danger" onclick="unlike('<%= item.code %>')">Remove from Wishlist</button>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            <% }) %>
-        <% } %>
+        <a href="javascript:history.go(-1)" class="ml-6 has-text-weight-bold has-text-info is-size-3">
+            <i class="fas fa-chevron-left"></i> Back
+        </a>
+        <h1 class="title has-text-centered py-5">UNDER CONSTRUCTION</h1>
     </main>
 
     <footer class="footer has-background-success has-text-centered has-text-white is-size-5">
@@ -108,7 +80,7 @@
                         <a class="text-decoration-none m-2" href="/products">Products</a>
                     </li>
                     <li>
-                        <a class="text-decoration-none m-2" href="/user/custom/BBC2111">Custom</a>
+                        <a class="text-decoration-none m-2" href="/user/custom/0/BBC2111">Custom</a>
                     </li>
                 </ul>
             </div>
@@ -133,15 +105,51 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/js/script.js"></script>
     <script>
-        // remove from wishlist
-        function unlike(code) {
-            axios.delete('/user/wishlist/remove/' + code).then((result) => {
-                location.reload()
-            }).catch((err) => {
-                alert('something went wrong !!!')
-            });
+        // show datetime
+        let datetime = document.getElementsByClassName("datetime")
+        let now = new Date(Date.now())
+        for (let i = 0; i < datetime.length; i++) {
+            let date = new Date(datetime[i].innerText)  // selisih 7 jam di mysql astaga
+            datetime[i].innerHTML = date.toLocaleString()
         }
 
+        // status button
+        let status = document.getElementsByClassName('order-status')
+        for (let i = 0; i < status.length; i++) {
+            if (status[i].innerText == "Cancelled") {
+                status[i].className += " is-danger"
+            }
+            else if (status[i].innerText == "New Order") {
+                status[i].className += " is-warning"
+            }
+            else if (status[i].innerText == "On Proccessed") {
+                status[i].className += " is-primary"
+            }
+            else if (status[i].innerText == "Ready to Get") {
+                status[i].className += " is-info"
+            }
+            else if (status[i].innerText == "Finished") {
+                status[i].className += " is-link"
+            }
+        }
+
+        // update order status
+        function updateStatus(status, id) {
+            let statusList = ['New Order', 'On Proccessed', 'Ready to Get', 'Finished']
+            let current = statusList.indexOf(status)
+            axios({
+                method: 'put', 
+                url: '/admin/order/update/' + status + '/' + id, 
+                data: {
+                    status : statusList[current+1]
+                }
+            }).then((result) => {
+                alert('Order #' + id + ' status successfully updated to ' + statusList[current+1])
+                location.reload()
+            }).catch((err) => {
+                alert('error ' + err)
+            });
+        }
     </script>
 </body>
 </html>

@@ -29,13 +29,18 @@
                     <a class="navbar-item m-2" href="/">Home</a>
                     <a class="navbar-item m-2" href="/products">Products</a>
                     <a class="navbar-item is-active m-2" href="/user/custom/BBC2111">Custom</a>
+                    <% if (user.isAdmin) { %>
+                        <a class="navbar-item m-2" href="/admin/order/order-list">Order List</a>
+                    <% } else { %>
+                        <a class="navbar-item m-2" href="/user/order/order-list">Order List</a>
+                    <% } %>
                     <a class="navbar-item m-2" href="/user/wishlist">Wishlist</a>
                 </div>
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="buttons">
                             <div class="mx-3" id="userEmail">
-                                <%= user.username %>
+                                <%- (user? user.isAdmin? '<small>Logged in as Admin</small>' : '<small>Logged in as User</small>' : '<small>Not Logged In</small>') %>  <%= user.username %>
                             </div>
                             <%- (!user ? '<a href="/login" class="button is-light"><span class="icon is-small is-left mr-1"><i class="fa fa-solid fa-user"></i></span>Login</a>' : '<a href="/logout" id="btnlogout" class="button is-light" onclick="loadLogout()"><span class="icon is-small is-left mr-1"><i class="fa fa-solid fa-right-from-bracket"></i></span>Logout</a>') %>
                             <button id="btnload" class="button is-loading" style="display: none; width: 150px;"></button>
@@ -54,6 +59,7 @@
         </p>
         <a href="/products" class="button is-success p-3 px-4 m-3 is-size-5">Check another Products</a>
         <a href="/" class="button is-primary p-3 px-4 m-3 is-size-5">Back to Home Page</a>
+        <a href="/user/order/order-list" class="button is-info p-3 px-5 m-3 is-size-5">Check my Order(s)</a>
     </main>
 
     <footer class="footer has-background-success has-text-centered has-text-white is-size-5">

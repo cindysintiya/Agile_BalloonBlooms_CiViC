@@ -32,7 +32,9 @@
                     <a class="navbar-item is-active m-2" href="/user/custom/BBC2111">Custom</a>
                     <% if (!user.isAdmin) { %>
                         <a class="navbar-item m-2" href="/user/wishlist">Wishlist</a>
+                        <a class="navbar-item m-2" href="/user/order/order-list">Order List</a>
                     <% } else { %>
+                        <a class="navbar-item m-2" href="/admin/order/order-list">Order List</a>
                         <a class="navbar-item m-2" href="/admin/user-list">User List</a>
                     <% } %>
                 </div>

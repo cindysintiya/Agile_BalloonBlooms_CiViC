@@ -16,9 +16,11 @@ const all_routes = require('./routers/all.js');
 const user_product_routes = require('./routers/user/product.js');
 const user_wishlist_routes = require('./routers/user/wishlist.js');
 const user_custom_routes = require('./routers/user/custom.js');
+const user_order_routes = require('./routers/user/order.js');
 
 const admin_user_routes = require('./routers/admin/user.js');
 const admin_product_routes = require('./routers/admin/product.js');
+const admin_order_routes = require('./routers/admin/order.js');
 
 // import controller module
 const { forAdmin, forUser } = require('./controllers/auth.js');
@@ -54,11 +56,13 @@ catch (err) {
 }
 
 app.use('/user/product', forUser, user_product_routes)
-app.use('/user/wishlist', forUser, user_wishlist_routes)
 app.use('/user/custom', forUser, user_custom_routes)
+app.use('/user/wishlist', forUser, user_wishlist_routes)
+app.use('/user/order', forUser, user_order_routes)
 
 app.use('/admin/user-list', forAdmin, admin_user_routes)
 app.use('/admin/product', forAdmin, admin_product_routes)
+app.use('/admin/order', forAdmin, admin_order_routes)
 
 app.use('/', all_routes)
 
@@ -74,7 +78,7 @@ app.get('*', (req, res) => {
     res.render('PageNotFound', { user: req.session.user || "" })
 })
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
 });
