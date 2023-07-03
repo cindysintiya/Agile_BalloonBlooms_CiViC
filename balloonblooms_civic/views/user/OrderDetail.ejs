@@ -57,7 +57,192 @@
         <a href="javascript:history.go(-1)" class="ml-6 has-text-weight-bold has-text-info is-size-3">
             <i class="fas fa-chevron-left"></i> Back
         </a>
-        <h1 class="title has-text-centered py-5">UNDER CONSTRUCTION</h1>
+        <div class="columns p-5">
+            <% if (user.isAdmin) { %>
+                <div class="column is-5 mr-6 has-text-left">
+                    <div class="user-info p-5">
+                        <p class="is-size-3 has-text-grey mb-3 sourceBold">User Information</p>
+                        <table class="is-size-4">
+                            <tr>
+                                <td>Username</td>
+                                <td class="px-4">:</td>
+                                <td><%= order.username %></td>
+                            </tr>
+                            <tr>
+                                <td>Full Name</td>
+                                <td class="px-4">:</td>
+                                <td><%= order.full_name %></td>
+                            </tr>
+                            <tr>
+                                <td>Phone Number</td>
+                                <td class="px-4">:</td>
+                                <td><a href="tel: <%= order.phone %>" class="has-text-dark" title="Click to call <%= order.full_name %>"><%= order.phone %></a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            <% } %>
+            <div class="column has-text-left <% if (!user.isAdmin) { %>is-8 is-offset-2<% } %>">
+                <div class="contact-info p-5">
+                    <p class="is-size-3 has-text-grey mb-3 sourceBold">Contact Information</p>
+                    <table class="is-size-4">
+                        <tr>
+                            <td>Full Name</td>
+                            <td class="px-4">:</td>
+                            <td><%= order.user_name %></td>
+                        </tr>
+                        <tr>
+                            <td>Phone Number</td>
+                            <td class="px-4">:</td>
+                            <td><a href="tel: <%= order.user_phone %>" class="has-text-dark" title="Click to call <%= order.user_name %>"><%= order.user_phone %></a></td>
+                        </tr>
+                        <tr>
+                            <td>Address</td>
+                            <td class="px-4">:</td>
+                            <td><%= order.user_address %></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="order-info p-5 m-5 has-text-left">
+            <p class="is-size-2 has-text-grey has-text-centered mb-3 sourceBold">Order Details</p>
+            <div class="columns column is-10 is-offset-1">
+                <div class="columns is-multiline ">
+                    <div class="column is-half is-size-4 mb-4">
+                        <div class="is-size-3 mb-1"><span class="mark raleway">Reference</span></div>
+                        <div class="ml-6"><img src="/img/products/<%= order.product_code %>.jpg" alt="<%= order.product_code %>" class="ref-img-det"></div>
+                    </div>
+                    <div class="column is-half is-size-4 mb-4">
+                        <div class="is-size-3 mb-1"><span class="mark raleway">Product</span></div>
+                        <table class="ml-6">
+                            <tr>
+                                <td>Code</td><td class="px-4">:</td><td><%= order.product_code %></td>
+                            </tr>
+                            <tr>
+                                <td>Name</td><td class="px-4">:</td><td><%= order.product_name %></td>
+                            </tr>
+                            <tr>
+                                <td>Price</td><td class="px-4">:</td><td class="prices"><%= order.product_price %></td>
+                            </tr>
+                            <tr>
+                                <td>Include</td><td class="px-4">:</td>
+                                <td>
+                                    <ul style="list-style-type: disc;">
+                                        <% order.include.forEach((desc) => { %>
+                                            <li class="ml-5"><%= desc %></li>
+                                        <% }) %>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="column is-half is-size-4 mb-4">
+                        <div class="is-size-3 mb-1"><span class="mark raleway">Balloon</span></div>
+                        <table class="ml-6">
+                            <tr>
+                                <td>Type</td><td class="px-4">:</td><td><%= order.balloon_type %></td>
+                            </tr>
+                            <tr>
+                                <td>Color</td><td class="px-4">:</td><td><%= order.balloon_color %></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="column is-half is-size-4 mb-4">
+                        <div class="is-size-3 mb-1"><span class="mark raleway">Ribbon</span></div>
+                        <table class="ml-6">
+                            <tr>
+                                <td>Type</td><td class="px-4">:</td><td><%= order.ribbon_type %></td>
+                            </tr>
+                            <tr>
+                                <td>Color</td><td class="px-4">:</td><td><%= order.ribbon_color %></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="column is-half is-size-4 mb-4">
+                        <div class="is-size-3 mb-1"><span class="mark raleway">Accessories</span></div>
+                        <ul class="ml-6" style="list-style-type: disc;">
+                            <% order.accessories.forEach((acc) => { %>
+                                <li class="ml-5"><%= acc %></li>
+                            <% }) %>
+                        </ul>
+                    </div>
+                    <div class="column is-half is-size-4 mb-4">
+                        <div class="is-size-3 mb-1"><span class="mark raleway">Cellophane</span></div>
+                        <table class="ml-6">
+                            <tr>
+                                <td>Color</td><td class="px-4">:</td><td><%= order.cellophane %></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="column is-half is-size-4 mb-4">
+                        <div class="is-size-3 mb-1"><span class="mark raleway">Note</span></div>
+                        <div class="ml-6">
+                            <%= order.note %> 
+                        </div>
+                    </div>
+                    <div class="column is-half is-size-4 mb-4">
+                        <div class="is-size-3 mb-1"><span class="mark raleway">Card Text</span></div>
+                        <div class="ml-6">
+                            <%= order.card_text %> 
+                        </div>
+                    </div>
+                    <div class="column is-half is-size-4 mb-4">
+                        <div class="is-size-3 mb-1"><span class="mark raleway">Portrait Art</span></div>
+                        <div class="ml-6 mr-5">
+                            <img src="/img/clients_portrait_art/<%= order.portrait_art %>" alt="<%= order.portrait_art %>">
+                        </div>
+                    </div>
+                    <div class="column is-half is-size-4 mb-4">
+                        <div class="is-size-3 mb-1"><span class="mark raleway">Payment</span></div>
+                        <table class="ml-6">
+                            <tr>
+                                <td>Method</td><td class="px-4">:</td><td><%= order.user_payment %></td>
+                            </tr>
+                            <tr>
+                                <td>Account Number</td><td class="px-4">:</td><td><%= order.user_rek.split("-")[0] %></td>
+                            </tr>
+                            <tr>
+                                <td>Account Name</td><td class="px-4">:</td><td><%= order.user_rek.split("-")[1] %></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="column is-half is-size-4 mb-4">
+                        <div class="is-size-3 mb-1"><span class="mark raleway">Date</span></div>
+                        <table class="ml-6">
+                            <tr>
+                                <td>Order on</td><td class="px-4">:</td><td class="datetime"><%= order.createdAt %></td>
+                            </tr>
+                            <tr>
+                                <td>Due on</td><td class="px-4">:</td><td class="datetime"><%= order.user_date %></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="column is-half is-size-4 mb-4">
+                        <div class="is-size-3 mb-1"><span class="mark raleway">Voucher</span></div>
+                        <div class="ml-6">
+                            <%= order.voucher %> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="level mx-5">
+            <div class="level-left">
+                <a <% if (user.isAdmin) { %> href="/admin/order/order-list" <% } else { %> href="/user/order/order-list" <% } %> class="button is-medium is-primary mr-3">Back to Order List</a>
+                <% if (order.status == 'New Order') { %>
+                    <button class="button is-medium is-danger" id="cancel<%- order.id %>" onclick="cancelOrder('<%= order.status %>', '<%= order.id %>')"><i class="fa fa-solid fa-circle-xmark mr-2"></i>Cancel Order</button>
+                <% } %>
+            </div>
+            <div class="level-right">
+                <span class="is-size-3 mr-4">Status :</span>
+                <% if (user.isAdmin && order.status != 'Cancelled' && order.status != 'Finished') { %>
+                    <button class="button is-medium order-status" title="Click to update status" onclick="updateStatus('<%= order.status %>', '<%= order.id %>')"><i class="fa fa-solid fa-circle-up mr-2"></i><%= order.status %></button>
+                <% } else { %>
+                    <p class="tag is-size-4 order-status"><i class="fa fa-solid <% if (order.status == 'Cancelled') { %>fa-thumbs-down<% } else if (order.status == 'Finished') { %>fa-thumbs-up<% } else { %>fa-clock<% } %> mr-2"></i><%= order.status %></p>
+                <% } %>
+            </div>
+        </div>
     </main>
 
     <footer class="footer has-background-success has-text-centered has-text-white is-size-5">
@@ -149,6 +334,27 @@
             }).catch((err) => {
                 alert('error ' + err)
             });
+        }
+
+        // cancel order
+        function cancelOrder(status, id) {
+            if (status == 'New Order') {
+                axios({
+                    method: 'put', 
+                    url: '/user/order/cancel/' + status + '/' + id, 
+                    data: {
+                        status : 'Cancelled'
+                    }
+                }).then((result) => {
+                    alert('Order #' + id + ' cancelled successfully')
+                }).catch((err) => {
+                    alert('error ' + err)
+                });
+            }
+            else {
+                alert("Order #' + id + ' is on proccessed/ ready, so it can't be cancelles anymore")
+            }
+            location.reload()
         }
     </script>
 </body>

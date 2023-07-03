@@ -335,12 +335,12 @@
             else if (status[i].innerText == "On Proccessed") {
                 status[i].className += " is-primary"
                 document.getElementsByClassName('cancel')[i].disabled = true
-                document.getElementsByClassName('cancel')[i].title = "You can't cancel your order anymore"
+                document.getElementsByClassName('cancel')[i].title = "You can't cancel this order anymore"
             }
             else if (status[i].innerText == "Ready to Get") {
                 status[i].className += " is-info"
                 document.getElementsByClassName('cancel')[i].disabled = true
-                document.getElementsByClassName('cancel')[i].title = "You can't cancel your order anymore"
+                document.getElementsByClassName('cancel')[i].title = "You can't cancel this order anymore"
             }
         }
 
@@ -360,6 +360,27 @@
             }).catch((err) => {
                 alert('error ' + err)
             });
+        }
+
+        // cancel order
+        function cancelOrder(status, id) {
+            if (status == 'New Order') {
+                axios({
+                    method: 'put', 
+                    url: '/user/order/cancel/' + status + '/' + id, 
+                    data: {
+                        status : 'Cancelled'
+                    }
+                }).then((result) => {
+                    alert('Order #' + id + ' cancelled successfully')
+                }).catch((err) => {
+                    alert('error ' + err)
+                });
+            }
+            else {
+                alert("Order #' + id + ' is on proccessed/ ready, so it can't be cancelles anymore")
+            }
+            location.reload()
         }
     </script>
 </body>
