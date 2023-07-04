@@ -373,12 +373,13 @@
                     }
                 }).then((result) => {
                     alert('Order #' + id + ' cancelled successfully')
+                    location.reload()
                 }).catch((err) => {
                     alert('error ' + err)
                 });
             }
             else {
-                alert("Order #' + id + ' is on proccessed/ ready, so it can't be cancelles anymore")
+                alert("Order #' + id + ' is on proccessed/ ready, so it can't be cancelled anymore")
             }
             location.reload()
         }

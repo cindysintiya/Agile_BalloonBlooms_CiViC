@@ -93,7 +93,7 @@
         <div class="has-background-primary mt-6 py-2 has-text-weight-bold my-5 raleway" style="font-size: 40px;">
             CUSTOMIZATION
         </div>
-        <form action="/user/custom/<%= product.code %>" method="post" class="has-text-left is-size-4" onsubmit="return window.confirm(`${document.getElementsByName('contact_name')[0].value}, are you sure want to placed an order to BallonBlooms ?`)" enctype="multipart/form-data">
+        <form action="/user/custom/<%= product.code %>" method="post" class="has-text-left is-size-4" onsubmit="return window.confirm(`${document.getElementsByName('contact_name')[0].value}, are you sure want to placed an order to BalloonBlooms ?`)" enctype="multipart/form-data">
             <fieldset <% if (user.isAdmin) { %> disabled title="Only user can make an order" <% } %>>
             <!-- <fieldset> -->
                 <div class="mx-6">
@@ -370,7 +370,7 @@
                         <div class="m-3 columns is-vcentered">
                             <label for="contact_name" class="column is-4">Name</label>:
                             <div class="column ml-4">
-                                <input type="text" class="input is-success" name="contact_name" placeholder="Please Enter Your Full Name" autoComplete="off" value="<%= user.username %>" required>
+                                <input type="text" class="input is-success" name="contact_name" placeholder="Please Enter Your Full Name" autoComplete="off" value="<%= user.name %>" required>
                             </div>
                         </div>
                         <div class="m-3 columns is-vcentered">
