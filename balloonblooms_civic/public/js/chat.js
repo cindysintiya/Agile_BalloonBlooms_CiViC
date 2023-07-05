@@ -3,6 +3,7 @@ const chatMessages = document.querySelector('.chat-messages');
 const roomName = document.getElementById('room-name');
 const userList = document.getElementById('users');
 const authStatus = document.getElementById('status');
+const changeRoom = document.getElementById('changeRoom');
 
 // Get username and room from URL
 const locationPath = window.location.pathname.split('/')
@@ -37,6 +38,13 @@ socket.on('message', message => {
 // Message join/ leave
 socket.on('joinleave', message => {
     outputJoinLeave(message);
+    // Scroll down
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+});
+
+// Message request
+socket.on('request', user => {
+    outputRequest(user.username);
     // Scroll down
     chatMessages.scrollTop = chatMessages.scrollHeight;
 });
@@ -77,10 +85,24 @@ function outputJoinLeave(message) {
     document.querySelector('.chat-messages').appendChild(div);
 }
 
+// Output request pc to DOM
+function outputRequest(username) {
+    const div = document.createElement('div');
+    div.classList.add('request');
+    div.innerHTML = `<p class="has-text-weight-bold">${username} request to Private Chat with Admin</p>`;
+    document.querySelector('.chat-messages').appendChild(div);
+}
+
 // Add room name to DOM
 function outputRoomName(room) {
     roomName.innerHTML = room;
     roomName.title = 'Current in room ' + room;
+    if (username.toLocaleLowerCase() != "admin" && room.substring(0, 10) != "ADMIN with") {
+        changeRoom.innerHTML = `<a href="/live-chat/${username}/ADMIN+${username}" target="_blank" class="button is-info is-medium mb-5"><i class="fa-solid fa-lock mr-3"></i>Private Chat with Admin</a>`;
+    }
+    else if (room.substring(0, 10) == "ADMIN with"){
+        changeRoom.innerHTML = `<a href="/live-chat/${username}/Public" target="_blank" class="button is-info is-medium mb-5"><i class="fa-solid fa-unlock mr-3"></i>Back to Public Live-Chat</a>`;
+    }
 }
 
 // Add users to DOM
