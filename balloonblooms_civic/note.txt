@@ -6,7 +6,7 @@
 - Pilih terminal jenis CommandPrompt (cmd)
 - Eksekusi command :
 >> npm init
->> npm i nodemon express ejs mysql2 sequelize express-session multer
+>> npm i nodemon express ejs mysql2 sequelize express-session multer socketio
 >> nodemon index
 Note : npm init bisa di skip jika sudah ada file package.json
 - Tahan Ctrl, klik link yang tertulis di terminal (Server running on ...)

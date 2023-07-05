@@ -153,6 +153,22 @@
             </div>
         </div>
         <div class="px-5 py-2 has-text-white" id="wishlistmsg" style="position: fixed; top: 60%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.5); display: none;"></div>
+
+        <div class="live-chat rounded m-5 p-4">
+            <p class="is-size-6">Need help? Join us on our public live chat.</p>
+            <form action="live-chat/<% if (user.isAdmin) { %>ADMIN<% } else { %><%= user.username %><% } %>/Public" target="_blank">
+                <div class="columns m-1">
+                    <% if (!user) { %>
+                        <input type="text" class="input is-success is-small mr-1" placeholder="username here" pattern="[a-zA-Z]+" title="Input only alphabet, no space, or number" id="username" required autocomplete="off">
+                    <% } else if (user.isAdmin) { %>
+                        <input type="text" hidden id="username" value="ADMIN">
+                    <% } else { %>
+                        <input type="text" hidden id="username" value=<% if (user.isAdmin) { %>ADMIN<% } else { %> <%= user.username %><% } %>>
+                    <% } %>
+                    <button class="button is-success is-small">Join Now</button>
+                </div>
+            </form>
+        </div>
     </main>
 
     <div style="position: sticky; bottom: 0; width: 100%;">
@@ -332,6 +348,17 @@
             }).catch((err) => {
                 alert('error ' + err)
             });
+        }
+        
+        // handle live-chat
+        document.getElementById('username').onkeyup = function () {
+            if (document.getElementById('username').value.toLocaleLowerCase() == 'admin') {
+                document.getElementById('username').setCustomValidity('You are not allowed to use this username')
+            }
+            else  {
+                document.getElementById('username').setCustomValidity('')
+                document.getElementsByTagName('form')[1].action = "/live-chat/"+document.getElementById('username').value+"/Public"
+            }
         }
     </script>
 </body>

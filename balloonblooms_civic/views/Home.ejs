@@ -135,6 +135,22 @@
                 </div>
             </div>
         </div>
+        
+        <div class="live-chat rounded m-5 p-4">
+            <p class="is-size-6">Need help? Join us on our public live chat.</p>
+            <form action="live-chat/<% if (user.isAdmin) { %>ADMIN<% } else { %><%= user.username %><% } %>/Public" id="live-chat" target="_blank">
+                <div class="columns m-1">
+                    <% if (!user) { %>
+                        <input type="text" class="input is-success is-small mr-1" placeholder="username here" pattern="[a-zA-Z]+" title="Input only alphabet, no space, or number" id="username" required autocomplete="off">
+                    <% } else if (user.isAdmin) { %>
+                        <input type="text" hidden id="username" value="ADMIN">
+                    <% } else { %>
+                        <input type="text" hidden id="username" value=<% if (user.isAdmin) { %>ADMIN<% } else { %> <%= user.username %><% } %>>
+                    <% } %>
+                    <button class="button is-success is-small">Join Now</button>
+                </div>
+            </form>
+        </div>
     </main>
 
     <footer class="footer has-background-success has-text-centered has-text-white is-size-5">
@@ -182,5 +198,17 @@
     </footer>
 
     <script src="/js/script.js"></script>
+    <script>
+        // handle live-chat
+        document.getElementById('username').onkeyup = function () {
+            if (document.getElementById('username').value.toLocaleLowerCase() == 'admin') {
+                document.getElementById('username').setCustomValidity('You are not allowed to use this username')
+            }
+            else  {
+                document.getElementById('username').setCustomValidity('')
+                document.getElementsByTagName('form')[0].action = "/live-chat/"+document.getElementById('username').value+"/Public"
+            }
+        }
+    </script>
 </body>
 </html>

@@ -80,6 +80,17 @@ thead {
     background-color: #FEE5E0;
 }
 
+.live-chat {
+    box-shadow: 3px 3px 10px 5px pink;
+    /* box-shadow: inset 0px 0px 15px 5px pink; */
+    background-color: white;
+    width: 320px;
+    position: fixed;
+    right: 0%;
+    bottom: 0%;
+    z-index: 10;
+}
+
 /* Button */
 .viewall {
     /* border: 2px solid #E2BAC2; */

@@ -7,7 +7,7 @@
 - Eksekusi command :
   > npm init
 
-  > npm i nodemon express ejs mysql2 sequelize express-session multer
+  > npm i nodemon express ejs mysql2 sequelize express-session multer socketio
 
   > nodemon index
 
