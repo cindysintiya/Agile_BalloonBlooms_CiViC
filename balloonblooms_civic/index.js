@@ -135,6 +135,10 @@ app.get('(/home)?', (req, res) => {
     res.render('Home', { user: req.session.user || "" });
 })
 
+app.get('/about(-us)?', (req, res) => {
+    res.render('About', { user: req.session.user || "" });
+})
+
 app.get('/live-chat/:username/:room', (req, res) => {
     try {
         if ((req.params.username.toLocaleLowerCase() == 'admin' && req.session.user.isAdmin) || req.params.username.toLocaleLowerCase() != 'admin')
@@ -152,8 +156,8 @@ app.get('/forbidden', (req, res) => {
 })
 
 app.get('*', (req, res) => {
-    res.end("<h1>Under Construction. Please comeback later ^^</h1>")
-    // res.render('PageNotFound', { user: req.session.user || "" })
+    // res.end("<h1>Under Construction. Please comeback later ^^</h1>")
+    res.render('PageNotFound', { user: req.session.user || "" })
 })
 
 const PORT = process.env.PORT || 3000;

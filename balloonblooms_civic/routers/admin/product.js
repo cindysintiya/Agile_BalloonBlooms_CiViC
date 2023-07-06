@@ -115,7 +115,7 @@ router.post('/repost/:code', upload.single("image"), async (req, res) => {
         })
     }
     catch (err) {
-        res.redirect('/product/comments/'+req.params.code)
+        res.redirect('/products')
     }
 })
 
@@ -173,7 +173,7 @@ router.post('/:category/add', upload.single("image"), async (req, res) => {
                     price   : req.body.price, 
                     include : JSON.stringify(listDesc)
                 }).then((productNew) => {
-                    res.redirect('/products');
+                    res.redirect('/product/comments/' + req.body.code);
                 }).catch(err => {
                     res.json({ status: 502, error: err });
                 })

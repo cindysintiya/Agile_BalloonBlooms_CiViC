@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/img/pages/BB_Effect3.png">
-    <meta http-equiv="refresh" content="4;url=/login">  <!--Redirecting page in n seconds-->
-    <title>Forbidden - BalloonBlooms CiViC</title>
+    <meta http-equiv="refresh" content="3;url=/">  <!--Redirecting page in n seconds-->
+    <title>Page Not Found - BalloonBlooms CiViC</title>
     <link rel="stylesheet" href="https://www.unpkg.com/bulma@0.9.3/css/bulma.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <link rel="stylesheet" href="/css/bulmaEdit.css">
@@ -45,7 +45,7 @@
                     <div class="navbar-item">
                         <div class="buttons">
                             <div class="mx-3" id="userEmail">
-                                <%- (user? user.isAdmin? '<small>Logged in as Admin</small>' : '<small>Logged in as User</small>' : '<small>Not Logged In</small>') %>  <%= user.username %>
+                                <%= user.username %>
                             </div>
                             <%- (!user ? '<a href="/login" class="button is-light"><span class="icon is-small is-left mr-1"><i class="fa fa-solid fa-user"></i></span>Login</a>' : '<a href="/logout" id="btnlogout" class="button is-light" onclick="loadLogout()"><span class="icon is-small is-left mr-1"><i class="fa fa-solid fa-right-from-bracket"></i></span>Logout</a>') %>
                             <button id="btnload" class="button is-loading" style="display: none; width: 150px;"></button>
@@ -56,17 +56,10 @@
         </nav>
     </header>
 
-    <main id="app" class="container is-max-widescreen has-text-centered my-6">
-        <h2 class="mt-6 mb-4 is-size-2">You are not allowed to access this page. <br> Please login to authenticate your identity.</h2>
-        <div class="buttons is-centered is-grouped columns column is-4 is-offset-4">
-            <p class="control">
-                <a href="/" id="home" class="button is-primary is-medium mx-3">Back to Home</a>
-            </p>
-            <p class="control">
-                <a href="/login" id="home" class="button is-info is-medium mx-3">Login</a>
-            </p>
-        </div>
-        <p class="mb-3 is-size-5">Redirecting to Login page in 3 secs ...</p>
+    <main id="app" class="container is-max-widescreen has-text-centered mb-5">
+        <img src="/img/pages/404notfound.png" alt="404 Page Not Found" width="50%" class="mt-6 mb-1">
+        <h1 class="title is-size-1 raleway">Page Not Found</h1>
+        <p class="mb-3 is-size-5">Redirecting to Home in 3 secs ...</p>
     </main>
 
     <footer class="footer has-background-success has-text-centered has-text-white is-size-5">
