@@ -44,8 +44,8 @@
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="buttons">
-                            <div class="mx-3" id="userEmail">
-                                <%- (user? user.isAdmin? '<small>Logged in as Admin</small>' : '<small>Logged in as User</small>' : '<small>Not Logged In</small>') %>  <%= user.username %>
+                            <div class="mx-3">
+                                <%- (user? user.isAdmin? '<small>Logged in as Admin</small>' : '<small>Logged in as User</small>' : '<small>Not Logged In</small>') %>  <span id="userEmail"><%= user.username %></span>
                             </div>
                             <%- (!user ? '<a href="/login" class="button is-light"><span class="icon is-small is-left mr-1"><i class="fa fa-solid fa-user"></i></span>Login</a>' : '<a href="/logout" id="btnlogout" class="button is-light" onclick="loadLogout()"><span class="icon is-small is-left mr-1"><i class="fa fa-solid fa-right-from-bracket"></i></span>Logout</a>') %>
                             <button id="btnload" class="button is-loading" style="display: none; width: 150px;"></button>
@@ -78,6 +78,10 @@
             Last Search : <big id="lastKeyword"></big>
         </div>
         <div class='py-3 mb-5'>
+            <p id="notfound" style="display: none;">
+                <span class="is-size-3">Product Not Found</span><br>
+                Please re-check your keyword
+            </p>
             <div class='pb-3' id="product-section">
                 <% products.forEach(group => { %>
                     <h2 class="mt-4 mb-2 has-text-left is-size-4 mytheme sourceSemi"><span class="pl-5 ml-5"><%= group.category %> </span></h2>
